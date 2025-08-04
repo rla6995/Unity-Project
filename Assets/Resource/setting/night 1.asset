@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ff53c6266a2a654f83586ceed8ecd0f, type: 3}
+  m_Name: night 1
+  m_EditorClassIdentifier: 
+  scoreThreshold: 999
+  theme: 1
+  rotationSpeed: 20
+  allowedNoteTypes: 01000000020000000300000005000000
+  gumihoImages:
+    dayImage: {fileID: 8887855459685190446, guid: 3ecbf0bb75e78f24a9c79e3fb340b2a5, type: 3}
+    nightImage: {fileID: 4655629868121015762, guid: 7d0583157e0edcb49928cbd4ce0cd035, type: 3}
+  dayGumihoSprite: {fileID: 8887855459685190446, guid: 3ecbf0bb75e78f24a9c79e3fb340b2a5, type: 3}
+  nightGumihoSprite: {fileID: 4655629868121015762, guid: 7d0583157e0edcb49928cbd4ce0cd035, type: 3}
+  dayGumihoSprites:
+  - {fileID: 8887855459685190446, guid: 3ecbf0bb75e78f24a9c79e3fb340b2a5, type: 3}
+  nightGumihoSprites:
+  - {fileID: 4655629868121015762, guid: 7d0583157e0edcb49928cbd4ce0cd035, type: 3}
+  noteSpawnChances:
+  - noteType: 1
+    spawnChance: 0.3
+  - noteType: 2
+    spawnChance: 0.5
+  - noteType: 3
+    spawnChance: 0.15
+  - noteType: 5
+    spawnChance: 0.05
+  wowJudgeSprite: {fileID: 21300000, guid: 7929d69f2b0f9964cbbd4e205143b591, type: 3}
+  niceJudgeSprite: {fileID: 21300000, guid: 5f2c335538d19bd42acff9a316594d50, type: 3}
+  badJudgeSprite: {fileID: 21300000, guid: ff35fe9e57b270449a210fdaaf060e12, type: 3}
