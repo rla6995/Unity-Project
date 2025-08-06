@@ -34,7 +34,12 @@ public class BackgroundManager : MonoBehaviour
     [Header("밤 테마 오브젝트 적용")]
     public List<GameObject> dayObjectsToDisable;
     public List<GameObject> nightObjectsToEnable;
-
+    public OrbEffectController orbEffect;
+    public Sprite awakenedBackgroundSprite;  // 각성 배경
+    public Sprite awakenedOrbSprite;
+    public SpriteRenderer orbRenderer;         // 각성 구슬
+    public Sprite dayOrbSprite;       // 낮 구슬
+    public Sprite nightOrbSprite;     // 밤 구슬
     void Awake()
     {
         if (Instance == null)
@@ -53,6 +58,26 @@ public class BackgroundManager : MonoBehaviour
         if (scorePopupText != null) scorePopupText.color = Color.yellow; // 강조 색상
 
         // 필요 시 피버 전용 오브젝트도 여기에 켤 수 있음
+    }
+    public void ApplyAwakenedTheme()
+    {
+        // 1. 배경 전환
+        if (awakenedBackgroundSprite != null)
+        {
+            StartTransition(awakenedBackgroundSprite);
+        }
+
+        // 2. 구슬 스프라이트 전환
+        if (orbRenderer != null && awakenedOrbSprite != null)
+        {
+            orbRenderer.sprite = awakenedOrbSprite;
+        }
+
+        // 3. 색상이나 텍스트도 필요 시 바꿀 수 있음
+        if (scoreText != null) scoreText.color = Color.white;
+        if (scorePopupText != null) scorePopupText.color = Color.yellow;
+
+        Debug.Log("[BackgroundManager] 각성 테마 적용됨");
     }
 
     void Start()
@@ -106,6 +131,8 @@ public class BackgroundManager : MonoBehaviour
         int currentScore = GameManager.Instance.CurrentScore;
         var setting = ScoreBasedDifficultyManager.Instance.GetSettingForScore(currentScore);
         ScoreBasedDifficultyManager.Instance.ApplySetting(setting);
+        Debug.Log("[BackgroundManager] ChangeToDay 호출됨");
+        Debug.Log("[BackgroundManager] orbEffect: " + (orbEffect != null));
     }
 
     public void ChangeToNight()
@@ -119,6 +146,8 @@ public class BackgroundManager : MonoBehaviour
         int currentScore = GameManager.Instance.CurrentScore;
         var setting = ScoreBasedDifficultyManager.Instance.GetSettingForScore(currentScore);
         ScoreBasedDifficultyManager.Instance.ApplySetting(setting);
+        Debug.Log("[BackgroundManager] ChangeToDay 호출됨");
+        Debug.Log("[BackgroundManager] orbEffect: " + (orbEffect != null));
     }
     public void ChangeToFever()
     {
@@ -239,9 +268,13 @@ public class BackgroundManager : MonoBehaviour
             if (go != null) go.SetActive(false);
         foreach (GameObject go in dayObjectsToDisable)
             if (go != null) go.SetActive(true);
-
+        if (orbRenderer != null && dayOrbSprite != null)
+            orbRenderer.sprite = dayOrbSprite;
         if (scoreText != null) scoreText.color = Color.black;
         if (scorePopupText != null) scorePopupText.color = Color.black;
+        Debug.Log("[BackgroundManager] ChangeToDay 호출됨");
+        Debug.Log("[BackgroundManager] orbEffect: " + (orbEffect != null));
+        orbEffect?.TriggerEffect();
     }
 
     public void ApplyNightTheme()
@@ -250,8 +283,12 @@ public class BackgroundManager : MonoBehaviour
             if (go != null) go.SetActive(false);
         foreach (GameObject go in nightObjectsToEnable)
             if (go != null) go.SetActive(true);
-
+        if (orbRenderer != null && nightOrbSprite != null)
+            orbRenderer.sprite = nightOrbSprite;
         if (scoreText != null) scoreText.color = Color.white;
         if (scorePopupText != null) scorePopupText.color = Color.white;
+        Debug.Log("[BackgroundManager] ChangeToDay 호출됨");
+        Debug.Log("[BackgroundManager] orbEffect: " + (orbEffect != null));
+        orbEffect?.TriggerEffect();
     }
 }

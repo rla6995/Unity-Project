@@ -4,27 +4,21 @@ public class JudgeInputHandler : MonoBehaviour
 {
     public WeaponJudgeSystem weaponJudgeSystem;
     public Animator playerAnimator;
-
+    private bool isMergeActive = false;
     private bool isAbsorbHeld = false;
     private bool isSwingHeld = false;
-    private bool isMergeActive = false;
-
     public void OnJudgeButtonDown()  // Z 버튼 누름
     {
-        isAbsorbHeld = true;
         TryStartMerge();
     }
 
     public void OnJudgeButtonUp()  // Z 버튼 뗌
     {
-        isAbsorbHeld = false;
         TryStopMerge();
 
         if (!isSwingHeld && !isMergeActive)
         {
             JudgeResult result = weaponJudgeSystem.TryJudge(NoteInputType.Absorb);
-            if (result == JudgeResult.Bad)
-                return;
             AudioManager.Instance.PlayWeaponSE(0);
             playerAnimator.SetTrigger("AbsorbTrigger");
         }
@@ -32,23 +26,33 @@ public class JudgeInputHandler : MonoBehaviour
 
     public void OnSwingButtonDown()  // X 버튼 누름
     {
-        isSwingHeld = true;
         TryStartMerge();
     }
 
     public void OnSwingButtonUp()  // X 버튼 뗌
     {
-        isSwingHeld = false;
         TryStopMerge();
 
         if (!isAbsorbHeld && !isMergeActive)
         {
             JudgeResult result = weaponJudgeSystem.TryJudge(NoteInputType.Swing);
-            if (result == JudgeResult.Bad)
-                return;
             AudioManager.Instance.PlayWeaponSE(1);
             playerAnimator.SetTrigger("AttackTrigger");
         }
+    }
+// UI 버튼에서 호출할 함수들
+    public void SetAbsorbHeld(bool isHeld)
+    {
+        isAbsorbHeld = isHeld;
+        if (isHeld) TryStartMerge();
+        else TryStopMerge();
+    }
+
+    public void SetSwingHeld(bool isHeld)
+    {
+        isSwingHeld = isHeld;
+        if (isHeld) TryStartMerge();
+        else TryStopMerge();
     }
 
     private void TryStartMerge()
@@ -56,8 +60,6 @@ public class JudgeInputHandler : MonoBehaviour
         if (isAbsorbHeld && isSwingHeld && !isMergeActive)
         {
             JudgeResult result = weaponJudgeSystem.TryJudge(NoteInputType.MergeHead);
-            if (result == JudgeResult.Bad)
-                return;
             isMergeActive = true;
             playerAnimator.SetBool("isMerging", true);
             AudioManager.Instance.PlayWeaponSE(2);

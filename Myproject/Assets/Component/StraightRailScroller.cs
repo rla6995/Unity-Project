@@ -36,8 +36,8 @@ void Awake()
             railWidth = sr.bounds.size.x;
             Debug.Log($"[StraightRailScroller] 측정된 railWidth = {railWidth:F3}");
 
-            railA.position = new Vector3(0f, -1.3f, 0f);
-            railB.position = new Vector3(railA.position.x + railWidth, -1.3f, 0f);
+            railA.position = new Vector3(0f, -3.25f, 0f);
+            railB.position = new Vector3(railA.position.x + railWidth, -3.25f, 0f);
         }
         else
         {

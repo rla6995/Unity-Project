@@ -76,7 +76,7 @@ public class MultiObjectPool : MonoBehaviour
     public void Return(GameObject obj)
     {
         obj.SetActive(false);
-
+        obj.transform.SetParent(this.transform);
         if (instanceToPrefab.TryGetValue(obj, out GameObject prefab))
         {
             poolDict[prefab].Enqueue(obj);

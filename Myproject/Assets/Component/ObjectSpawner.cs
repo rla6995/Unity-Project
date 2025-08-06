@@ -23,7 +23,7 @@ public class ObjectSpawner : MonoBehaviour
 
     private int pendingMergeTailCount = 0;
     private GameObject currentHeadNote;
-
+    private bool hasSpawnedFirst = false;
     private void Awake()
     {
         if (Instance == null)
@@ -37,6 +37,7 @@ public class ObjectSpawner : MonoBehaviour
         pool = FindAnyObjectByType<MultiObjectPool>();
         if (rotator == null) rotator = FindAnyObjectByType<SplineRotator>();
         occupiedSlots = new bool[totalSlots];
+        spawnTimer = 999f;
     }
 
     private void Update()
@@ -44,11 +45,12 @@ public class ObjectSpawner : MonoBehaviour
         if (!spawnEnabled) return;
 
         float timePerSlot = 360f / (rotator.rotationSpeed * totalSlots);
+        
         spawnTimer += Time.deltaTime;
 
         if (spawnTimer >= timePerSlot)
         {
-            if (currentState == SpawnState.Merged && pendingMergeTailCount > 0)
+            if (currentState == SpawnState.Merged && pendingMergeTailCount > 0) 
             {
                 SpawnMergeTail();
                 pendingMergeTailCount--;

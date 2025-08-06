@@ -21,7 +21,5 @@ public class ThemedAnimator : MonoBehaviour, IThemeApplicable
 
         if (animator != null)
             animator.runtimeAnimatorController = isNight ? nightController : dayController;
-        Debug.Log($"[ThemedAnimator] {(isNight ? "Night" : "Day")} 컨트롤러로 교체됨: {animator.runtimeAnimatorController.name}");
-        Debug.Log($"[ThemedAnimator] 현재 상태: {animator.GetCurrentAnimatorStateInfo(0).IsName("YourStateNameHere")}");
     }
 }

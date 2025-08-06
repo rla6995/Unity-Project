@@ -43,7 +43,7 @@ public class FeverModeManager : MonoBehaviour
 
     private Dictionary<Transform, Vector3> originalChildLocalPositions = new();
     private Coroutine feverDurationCoroutine;
-    private float feverDuration = 10f;
+    private float feverDuration = 15f;
     private void Awake()
     {
         if (Instance == null)
@@ -96,7 +96,7 @@ public class FeverModeManager : MonoBehaviour
         feverSpawnInterval = (effectiveWidth / 50f) / railScroller.scrollSpeed;
 
         // 플레이어 위치 및 외형
-        player.transform.position = new Vector3(6.5f, 2f, 0f);
+        player.transform.position = new Vector3(6.5f, 0f, 0f);
         player.transform.localScale = feverPlayerScale;
 
         if (playerSpriteRenderer != null) playerSpriteRenderer.sprite = feverSprite;
@@ -109,7 +109,7 @@ public class FeverModeManager : MonoBehaviour
         absorbButton.SetActive(false);
 
         if (judgeCenter != null)
-            judgeCenter.transform.position = new Vector3(1.3f, 0f, 10f);
+            judgeCenter.transform.position = new Vector3(1.3f, -1f, 10f);
 
         // 기존 노트 제거
         foreach (var obj in objectPool.ActiveObjects.ToArray())

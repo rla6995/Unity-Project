@@ -77,11 +77,11 @@ public class WeaponJudgeSystem : MonoBehaviour
 
         if (!valid || resultSingle == JudgeResult.Bad)
         {
-            if (type != NoteType.FeverNote)
-            {
-                GameManager.Instance?.ShowJudgeText(JudgeResult.Bad);
-                playerAnimator?.SetTrigger("BadTrigger");
-            }
+            //if (type != NoteType.FeverNote)
+            //{
+            //  GameManager.Instance?.ShowJudgeText(JudgeResult.Bad);
+            //  playerAnimator?.SetTrigger("BadTrigger");
+            //}
             return JudgeResult.Bad;
         }
 

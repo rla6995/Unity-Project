@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Note
   - MergeTail
+  - Zone
   layers:
   - Default
   - TransparentFX

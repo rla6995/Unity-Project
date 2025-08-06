@@ -27,9 +27,9 @@ MonoBehaviour:
   - {fileID: -3154775154365730900, guid: 609735a1c129f5d4db972d2ecf5564ef, type: 3}
   noteSpawnChances:
   - noteType: 1
-    spawnChance: 0.5
+    spawnChance: 0.55
   - noteType: 2
-    spawnChance: 0.45
+    spawnChance: 0.4
   - noteType: 3
     spawnChance: 0.05
   wowJudgeSprite: {fileID: 21300000, guid: 61eeab0c864f3664eb68b92c79f97389, type: 3}

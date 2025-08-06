@@ -65,7 +65,7 @@ public class ThemeManager : MonoBehaviour
         BackgroundManager.Instance?.StopFeverScroll();
 
         // 2. 배경 전환
-        Sprite targetSprite;
+        Sprite targetSprite = null;
         switch (setting.theme)
         {
             case ThemeType.Day:
@@ -74,6 +74,15 @@ public class ThemeManager : MonoBehaviour
                 BackgroundManager.Instance?.ApplyDayTheme();
                 break;
             case ThemeType.BurningNight:
+                BackgroundManager.Instance.IsNightTheme = true;
+                BackgroundManager.Instance?.ApplyAwakenedTheme();
+                var feverButton1 = GameObject.Find("FeverDarkCover");
+                if (feverButton1 != null)
+                    feverButton1.SetActive(false);
+                var feverButton2 = GameObject.Find("FeverFillImage");
+                if (feverButton2 != null)
+                    feverButton2.SetActive(false);
+                break;
             case ThemeType.Night1:
             case ThemeType.Night2:
             case ThemeType.Night3:
@@ -94,7 +103,16 @@ public class ThemeManager : MonoBehaviour
 
         if (targetSprite != null)
             BackgroundManager.Instance?.StartTransition(targetSprite);
+        if (setting.theme == ThemeType.BurningNight)
+        {
+            BackgroundManager.Instance?.ApplyAwakenedTheme();  // 내부에서 orb 스프라이트 설정
 
+            // 테마 적용 이후 Themed 오브젝트가 다시 덮어쓸 수 있으므로 재적용
+            if (BackgroundManager.Instance?.orbRenderer != null && BackgroundManager.Instance.awakenedOrbSprite != null)
+            {
+                BackgroundManager.Instance.orbRenderer.sprite = BackgroundManager.Instance.awakenedOrbSprite;
+            }
+        }
         // 3. BGM 변경
         switch (setting.theme)
         {
@@ -110,6 +128,7 @@ public class ThemeManager : MonoBehaviour
             default:
                 AudioManager.Instance?.PlayBGM(2); // 일반 밤 BGM
                 break;
+        
         }
 
         // 4. Themed 오브젝트 일괄 적용

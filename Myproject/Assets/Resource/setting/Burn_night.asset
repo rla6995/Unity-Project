@@ -32,3 +32,6 @@ MonoBehaviour:
     spawnChance: 0.5
   - noteType: 5
     spawnChance: 0.2
+  wowJudgeSprite: {fileID: 21300000, guid: 7929d69f2b0f9964cbbd4e205143b591, type: 3}
+  niceJudgeSprite: {fileID: 21300000, guid: 5f2c335538d19bd42acff9a316594d50, type: 3}
+  badJudgeSprite: {fileID: 21300000, guid: ff35fe9e57b270449a210fdaaf060e12, type: 3}
