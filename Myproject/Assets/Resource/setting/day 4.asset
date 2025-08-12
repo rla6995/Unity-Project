@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreThreshold: 5999
   theme: 0
-  rotationSpeed: 28
+  rotationSpeed: 35
   allowedNoteTypes: 010000000200000003000000
   gumihoImages:
     dayImage: {fileID: -408053414895690686, guid: 37cea1dc787872e4dbc48c7ee78c6061, type: 3}

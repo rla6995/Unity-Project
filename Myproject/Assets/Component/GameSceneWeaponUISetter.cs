@@ -18,12 +18,30 @@ public class GameSceneWeaponUISetter : MonoBehaviour
     public Sprite swingRightSprite_night;
     public Sprite judgeLeftSprite_night;
     public Sprite judgeRightSprite_night;
-
+    public Sprite feverSwingLeftSprite;
+    public Sprite feverSwingRightSprite;
+    private bool isFeverActive = false;
     void Start()
     {
         ApplyGameUIButtonState();
     }
+    public void ResetFeverState()
+    {
+        isFeverActive = false;
+    }
+    public void ApplyFeverButtonSprite()
+    {
+        if (WeaponSwapManager.Instance == null) return;
 
+        isFeverActive = true;
+
+        bool isLeft = WeaponSwapManager.Instance.IsMainWeaponLeft;
+
+        if (swingButtonImage != null)
+        {
+            swingButtonImage.sprite = isLeft ? feverSwingLeftSprite : feverSwingRightSprite;
+        }
+    }
 public void ApplyGameUIButtonState()
 {
     if (WeaponSwapManager.Instance == null)
@@ -51,9 +69,18 @@ public void ApplyGameUIButtonState()
 
     if (swingButtonImage != null && judgeButtonImage != null)
     {
-        Sprite swingSprite = isNight
-            ? (isLeft ? swingLeftSprite_night : swingRightSprite_night)
-            : (isLeft ? swingLeftSprite : swingRightSprite);
+        Sprite swingSprite;
+
+        if (isFeverActive)
+        {
+            swingSprite = isLeft ? feverSwingLeftSprite : feverSwingRightSprite;
+        }
+        else
+        {
+            swingSprite = isNight
+                ? (isLeft ? swingLeftSprite_night : swingRightSprite_night)
+                : (isLeft ? swingLeftSprite : swingRightSprite);
+        }
 
         Sprite judgeSprite = isNight
             ? (isLeft ? judgeRightSprite_night : judgeLeftSprite_night)

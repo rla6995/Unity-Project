@@ -10,7 +10,7 @@ public class NoteGlowActivator : MonoBehaviour
             Transform visual = other.transform.Find("9-Sliced");
             if (visual != null && visual.TryGetComponent(out Animator anim))
             {
-                StartCoroutine(DelayedGlow(anim, 0.15f)); // 💡 0.05초 뒤에 발광
+                StartCoroutine(DelayedGlow(anim, 0.2f)); // 💡 0.05초 뒤에 발광
             }
         }
     }

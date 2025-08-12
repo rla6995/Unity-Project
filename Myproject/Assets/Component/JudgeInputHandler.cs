@@ -4,9 +4,12 @@ public class JudgeInputHandler : MonoBehaviour
 {
     public WeaponJudgeSystem weaponJudgeSystem;
     public Animator playerAnimator;
+
     private bool isMergeActive = false;
     private bool isAbsorbHeld = false;
     private bool isSwingHeld = false;
+
+    // === 키/버튼 공통 인터페이스 ===
     public void OnJudgeButtonDown()  // Z 버튼 누름
     {
         TryStartMerge();
@@ -16,11 +19,12 @@ public class JudgeInputHandler : MonoBehaviour
     {
         TryStopMerge();
 
+        // 단독 흡수 판정 (합동공격 중이 아니고, 스윙을 누르고 있지 않을 때)
         if (!isSwingHeld && !isMergeActive)
         {
             JudgeResult result = weaponJudgeSystem.TryJudge(NoteInputType.Absorb);
             AudioManager.Instance.PlayWeaponSE(0);
-            playerAnimator.SetTrigger("AbsorbTrigger");
+            if (playerAnimator) playerAnimator.SetTrigger("AbsorbTrigger");
         }
     }
 
@@ -33,14 +37,16 @@ public class JudgeInputHandler : MonoBehaviour
     {
         TryStopMerge();
 
+        // 단독 스윙 판정 (합동공격 중이 아니고, 흡수를 누르고 있지 않을 때)
         if (!isAbsorbHeld && !isMergeActive)
         {
             JudgeResult result = weaponJudgeSystem.TryJudge(NoteInputType.Swing);
             AudioManager.Instance.PlayWeaponSE(1);
-            playerAnimator.SetTrigger("AttackTrigger");
+            if (playerAnimator) playerAnimator.SetTrigger("AttackTrigger");
         }
     }
-// UI 버튼에서 호출할 함수들
+
+    // === UI 버튼에서 호출 (터치) ===
     public void SetAbsorbHeld(bool isHeld)
     {
         isAbsorbHeld = isHeld;
@@ -55,13 +61,14 @@ public class JudgeInputHandler : MonoBehaviour
         else TryStopMerge();
     }
 
+    // === 합동공격 제어 ===
     private void TryStartMerge()
     {
         if (isAbsorbHeld && isSwingHeld && !isMergeActive)
         {
             JudgeResult result = weaponJudgeSystem.TryJudge(NoteInputType.MergeHead);
             isMergeActive = true;
-            playerAnimator.SetBool("isMerging", true);
+            if (playerAnimator) playerAnimator.SetBool("isMerging", true);
             AudioManager.Instance.PlayWeaponSE(2);
         }
     }
@@ -71,41 +78,61 @@ public class JudgeInputHandler : MonoBehaviour
         if (isMergeActive && (!isAbsorbHeld || !isSwingHeld))
         {
             isMergeActive = false;
-            playerAnimator.SetBool("isMerging", false);
+            if (playerAnimator) playerAnimator.SetBool("isMerging", false);
 
             // 머지 버튼 해제 시 머리 노트 이동 재개
-            foreach (var obj in MultiObjectPool.Instance.ActiveObjects)
+            var active = MultiObjectPool.Instance != null ? MultiObjectPool.Instance.ActiveObjects : null;
+            if (active != null)
             {
-                if (obj != null && obj.activeInHierarchy && obj.TryGetComponent(out MergeHeadController headCtrl))
+                foreach (var obj in active)
                 {
-                    headCtrl.StopHitLoop();
+                    if (obj != null && obj.activeInHierarchy && obj.TryGetComponent(out MergeHeadController headCtrl))
+                    {
+                        headCtrl.StopHitLoop();
+                    }
                 }
             }
         }
     }
 
-private float mergeTailJudgeCooldown = 0f;
+    private float mergeTailJudgeCooldown = 0f;
 
-private void Update()
-{
+    private void Update()
+    {
+        // === 키보드 입력에서도 터치와 동일하게 상태 갱신 ===
 #if UNITY_EDITOR || UNITY_STANDALONE
-    if (Input.GetKeyDown(KeyCode.Z)) OnJudgeButtonDown();
-    if (Input.GetKeyUp(KeyCode.Z)) OnJudgeButtonUp();
+        if (Input.GetKeyDown(KeyCode.Z))
+        {
+            isAbsorbHeld = true;
+            OnJudgeButtonDown();
+        }
+        if (Input.GetKeyUp(KeyCode.Z))
+        {
+            isAbsorbHeld = false;
+            OnJudgeButtonUp();
+        }
 
-    if (Input.GetKeyDown(KeyCode.X)) OnSwingButtonDown();
-    if (Input.GetKeyUp(KeyCode.X)) OnSwingButtonUp();
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            isSwingHeld = true;
+            OnSwingButtonDown();
+        }
+        if (Input.GetKeyUp(KeyCode.X))
+        {
+            isSwingHeld = false;
+            OnSwingButtonUp();
+        }
 #endif
 
-    // ✅ 키보드 + 버튼 방식 모두 작동
-    if (isAbsorbHeld && isSwingHeld && isMergeActive)
-    {
-        mergeTailJudgeCooldown -= Time.deltaTime;
-        if (mergeTailJudgeCooldown <= 0f)
+        // ✅ 키보드 + 버튼 방식 모두 작동: 합동공격 꼬리 판정 주기적으로 시도
+        if (isAbsorbHeld && isSwingHeld && isMergeActive)
         {
-            weaponJudgeSystem.TryJudge(NoteInputType.MergeTail);
-            mergeTailJudgeCooldown = 0.05f;  // 0.1초 쿨타임
+            mergeTailJudgeCooldown -= Time.deltaTime;
+            if (mergeTailJudgeCooldown <= 0f)
+            {
+                weaponJudgeSystem.TryJudge(NoteInputType.MergeTail);
+                mergeTailJudgeCooldown = 0.05f;  // 0.05초 쿨타임
+            }
         }
     }
-}
-
 }

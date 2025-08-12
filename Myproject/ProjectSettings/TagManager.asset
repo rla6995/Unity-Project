@@ -17,7 +17,7 @@ TagManager:
   - Note
   - Player
   - Weapon
-  - 
+  - FogOverlay
   - 
   - 
   - 
@@ -41,6 +41,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: FogOverlay
+    uniqueID: 2416557917
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

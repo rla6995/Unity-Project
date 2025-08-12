@@ -93,10 +93,25 @@ public class GameManager : MonoBehaviour
 
     public void TryEnterFeverMode()
     {
+        Debug.Log("TryEnterFeverMode Called");
         if (FeverGauge >= 100f && !FeverModeManager.Instance.IsFeverActive())
         {
-            BackgroundManager.Instance?.ChangeToFever(); // 이 안에서 EnterFeverMode 호출됨
+            Debug.Log("Fever Entry Started");
+            FeverModeManager.Instance?.StartFeverEntrySequence();
         }
+    }
+    // GameManager.cs 내부 어딘가(다른 public 메서드들과 같이) 추가
+    public void FillFeverAndEnter()
+    {
+        // 1) 게이지 꽉 채우기 (UI는 FeverGauge 프로퍼티 통해 자동 갱신)
+        FeverGauge = 100f;
+
+        // 2) 이미 피버 중이면 무시
+        if (FeverModeManager.Instance != null && FeverModeManager.Instance.IsFeverActive())
+            return;
+
+        // 3) 피버 진입 시퀀스 시작
+        FeverModeManager.Instance?.StartFeverEntrySequence();
     }
 
     public void SetScoreFromInput()
@@ -152,7 +167,7 @@ private IEnumerator TriggerGameOverCoroutine()
     }
 
     // ✅ 0.05초 대기
-    yield return new WaitForSecondsRealtime(0.5f);
+    yield return new WaitForSecondsRealtime(0.3f);
 
     // ✅ 게임 정지 및 UI 표시
     Time.timeScale = 0;
@@ -187,7 +202,7 @@ private IEnumerator TriggerGameOverCoroutine()
         judgeImage.gameObject.SetActive(true);
 
         SetFoxExpression(result);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
         judgeImage.gameObject.SetActive(false);
         scorePopupText.gameObject.SetActive(false);
     }

@@ -166,43 +166,36 @@ public class BackgroundManager : MonoBehaviour
 
         return IsNightTheme ? nightSprite : daySprite;
     }
-
-    private IEnumerator FeverTransitionWithFlash()
+// BackgroundManager.cs 내부 어딘가(메서드들 중간)에 추가
+    private void InstantSwapSprite(Sprite newSprite, bool keepWhite = true)
     {
-        float brightenDuration = 0.2f;
-        float dimDuration = 0.8f;
-        float elapsed = 0f;
-
-        while (elapsed < brightenDuration)
+        if (transitionCoroutine != null)
         {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(0f, 1f, elapsed / brightenDuration);
-            feverFlashOverlay.color = new Color(1f, 1f, 1f, alpha);
-            yield return null;
+            StopCoroutine(transitionCoroutine);
+            transitionCoroutine = null;
         }
 
-        // ✅ 피버 모드 진입 시
-        AudioManager.Instance?.PlaySE(5);
+        backgroundImage.sprite = newSprite;
+
+        // 오버레이가 이미 하양을 덮고 있으므로, 배경 자체는 흰색으로 유지해도 무방
+        backgroundImage.color = keepWhite ? Color.white : Color.white;
+    }
+
+    // BackgroundManager.cs - FeverTransitionWithFlash() 내부 수정
+    private IEnumerator FeverTransitionWithFlash()
+    {
+        // (기존처럼 FeverModeManager에 맡겨서 UI/플레이어/버튼 등 전체 피버 세팅)
         FeverModeManager.Instance?.EnterFeverMode();
-        backgroundImage.sprite = feverSprite;
-        backgroundImage.color = Color.white;
-        StartTransition(feverSprite);
+
+        // 배경 스프라이트는 '즉시' 교체 (내부 페이드 금지)
+        InstantSwapSprite(feverSprite, keepWhite: true);
+
+        // 피버 배경 스크롤/타일 활성
         SetFeverBackgroundActive(true);
         StartFeverScroll();
 
-        yield return null;
-
-        elapsed = 0f;
-        while (elapsed < dimDuration)
-        {
-            elapsed += Time.deltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, elapsed / dimDuration);
-            feverFlashOverlay.color = new Color(1f, 1f, 1f, alpha);
-            yield return null;
-        }
-
-        feverFlashOverlay.color = new Color(1f, 1f, 1f, 0f);
         AudioManager.Instance?.PlayBGM(3); // 피버 BGM
+        yield return null;
     }
 
     public void StartTransition(Sprite newSprite)

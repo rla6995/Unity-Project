@@ -555,22 +555,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   leftIcon: {fileID: 661253243}
   rightIcon: {fileID: 2113617303}
-  weapon1: {fileID: 5777845816171722573, guid: 1f6a68cabec6d3c4290fd22f74d19ec9, type: 3}
-  weapon2: {fileID: 5210540119830283547, guid: bd103629cd1f7a54eb060c2f861c5a1a, type: 3}
-  weapon1_night: {fileID: 0}
-  weapon2_night: {fileID: 0}
+  weapon1: {fileID: -4481103769193798806, guid: 45ec9308ea55c2240873de1f1451ae33, type: 3}
+  weapon2: {fileID: -7569088512571290941, guid: f32180f75a349f1428c17908a74904e2, type: 3}
+  weapon1_night: {fileID: 3916601337422120906, guid: 7a11758b07712b541bc624c3402f9645, type: 3}
+  weapon2_night: {fileID: -3400981315711657798, guid: d8bc05c7eb291d2408e212d39d031142, type: 3}
   swingButton: {fileID: 661253242}
   judgeButton: {fileID: 2113617302}
-  swingLeftSprite: {fileID: 5777845816171722573, guid: 1f6a68cabec6d3c4290fd22f74d19ec9, type: 3}
-  swingRightSprite: {fileID: -3970231283648726008, guid: f7d5f404c0b106c4fb894b66530f8260, type: 3}
-  judgeLeftSprite: {fileID: -211725791031049407, guid: 19d4cc3dc69c96a43b37dc0788cbe266, type: 3}
-  judgeRightSprite: {fileID: 5210540119830283547, guid: bd103629cd1f7a54eb060c2f861c5a1a, type: 3}
-  swingLeftSprite_night: {fileID: 0}
-  swingRightSprite_night: {fileID: 0}
-  judgeLeftSprite_night: {fileID: 0}
-  judgeRightSprite_night: {fileID: 0}
+  swingLeftSprite: {fileID: -4481103769193798806, guid: 45ec9308ea55c2240873de1f1451ae33, type: 3}
+  swingRightSprite: {fileID: -2532389856222888021, guid: 6bef9fed83f585642a098a88fea77f4a, type: 3}
+  judgeLeftSprite: {fileID: -2681646774544367665, guid: 3c2fc048783aef8488df20a8d5aead4e, type: 3}
+  judgeRightSprite: {fileID: -7569088512571290941, guid: f32180f75a349f1428c17908a74904e2, type: 3}
+  swingLeftSprite_night: {fileID: 3916601337422120906, guid: 7a11758b07712b541bc624c3402f9645, type: 3}
+  swingRightSprite_night: {fileID: -5948593247757349480, guid: 9a154ac520a069447b6eaa198ce81519, type: 3}
+  judgeLeftSprite_night: {fileID: 7426036529798431153, guid: d25c59a9eadbb6d47bb220b9be0d1b05, type: 3}
+  judgeRightSprite_night: {fileID: -3400981315711657798, guid: d8bc05c7eb291d2408e212d39d031142, type: 3}
   swingButtonImage: {fileID: 661253243}
   judgeButtonImage: {fileID: 2113617303}
+  feverSwingLeftSprite: {fileID: 8641513438856212176, guid: 5055f70df587ea84dbaf05de5092ecd0, type: 3}
+  feverSwingRightSprite: {fileID: 8101430610712153980, guid: a7c3f506cb28c974bb452b1e9fa4a6c0, type: 3}
 --- !u!4 &458140758
 Transform:
   m_ObjectHideFlags: 0
@@ -892,7 +894,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5777845816171722573, guid: 1f6a68cabec6d3c4290fd22f74d19ec9, type: 3}
+  m_Sprite: {fileID: -4481103769193798806, guid: 45ec9308ea55c2240873de1f1451ae33, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2843,6 +2845,8 @@ MonoBehaviour:
   judgeRightSprite_night: {fileID: 0}
   swingButtonImage: {fileID: 0}
   judgeButtonImage: {fileID: 0}
+  feverSwingLeftSprite: {fileID: 0}
+  feverSwingRightSprite: {fileID: 0}
 --- !u!1 &1909253313
 GameObject:
   m_ObjectHideFlags: 0
@@ -3292,7 +3296,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5210540119830283547, guid: bd103629cd1f7a54eb060c2f861c5a1a, type: 3}
+  m_Sprite: {fileID: -7569088512571290941, guid: f32180f75a349f1428c17908a74904e2, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

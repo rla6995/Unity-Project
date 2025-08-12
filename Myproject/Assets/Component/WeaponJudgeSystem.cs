@@ -77,11 +77,6 @@ public class WeaponJudgeSystem : MonoBehaviour
 
         if (!valid || resultSingle == JudgeResult.Bad)
         {
-            //if (type != NoteType.FeverNote)
-            //{
-            //  GameManager.Instance?.ShowJudgeText(JudgeResult.Bad);
-            //  playerAnimator?.SetTrigger("BadTrigger");
-            //}
             return JudgeResult.Bad;
         }
 
@@ -108,7 +103,12 @@ public class WeaponJudgeSystem : MonoBehaviour
             case NoteType.MergeHead: AudioManager.Instance.PlayObjectSE(2); break;
             case NoteType.MergeTail: AudioManager.Instance.PlayObjectSE(2); break;
             case NoteType.BonusNote: AudioManager.Instance.PlayObjectSE(3); break;
-            case NoteType.FeverNote: AudioManager.Instance.PlayObjectSE(4); break;
+            case NoteType.FeverNote: AudioManager.Instance.PlayObjectSE(4); 
+                if (resultSingle == JudgeResult.Wow)
+                {
+                    FeverCoinEffectManager.Instance?.Play(); // ✅ 여기!
+                }
+                break;
         }
 
         GameManager.Instance?.AddScore(resultSingle);

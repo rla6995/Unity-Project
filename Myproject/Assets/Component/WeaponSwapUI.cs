@@ -31,13 +31,16 @@ public class WeaponSwapUI : MonoBehaviour
     [Header("버튼의 Image 컴포넌트")]
     public Image swingButtonImage;
     public Image judgeButtonImage;
+    private bool isFeverActive = false;
 
     private void Start() => Initialize();
 
     private void OnEnable() => ApplySwapState();
 
     public void Initialize() => ApplySwapState();
-
+    [Header("피버용 스프라이트")]
+    public Sprite feverSwingLeftSprite;
+    public Sprite feverSwingRightSprite;
     public void ApplySwapState()
     {
         if (leftIcon == null || rightIcon == null) return;
@@ -60,9 +63,26 @@ public class WeaponSwapUI : MonoBehaviour
             judgeButton.localPosition = new Vector3(-Mathf.Abs(tempPos.x), tempPos.y, tempPos.z);
         }
 
-        UpdateButtonImages(isLeft);
+        UpdateButtonImages(isLeft, isFeverActive);
+    }
+    public void ResetFeverState()
+    {
+        isFeverActive = false;
     }
 
+    public void ApplyFeverButtonSprite()
+    {
+        if (WeaponSwapManager.Instance == null) return;
+
+        isFeverActive = true;
+
+        bool isLeft = WeaponSwapManager.Instance.IsMainWeaponLeft;
+
+        if (swingButtonImage != null)
+        {
+            swingButtonImage.sprite = isLeft ? feverSwingLeftSprite : feverSwingRightSprite;
+        }
+    }
     public void SwapWeapons()
     {
         if (leftIcon == null || rightIcon == null) return;
@@ -71,7 +91,7 @@ public class WeaponSwapUI : MonoBehaviour
         bool isLeft = WeaponSwapManager.Instance.IsMainWeaponLeft;
 
         UpdateIcons();
-        UpdateButtonImages(isLeft);
+        UpdateButtonImages(isLeft, isFeverActive);
 
         // 위치만 스왑
         Vector3 temp = swingButton.localPosition;
@@ -99,28 +119,41 @@ public class WeaponSwapUI : MonoBehaviour
         }
     }
 
-    private void UpdateButtonImages(bool isMainWeaponLeft)
+    private void UpdateButtonImages(bool isMainWeaponLeft, bool useFeverSprite = false)
     {
         bool isNight = BackgroundManager.Instance != null && BackgroundManager.Instance.IsNightTheme;
-        Debug.Log($"[WeaponSwapUI] 버튼 이미지 설정 실행됨 | isNight: {isNight}, isLeft: {isMainWeaponLeft}");
-    if (swingButtonImage != null && judgeButtonImage != null)
-    {
-        Sprite swingSprite = isNight
-            ? (isMainWeaponLeft ? swingLeftSprite_night : swingRightSprite_night)
-            : (isMainWeaponLeft ? swingLeftSprite : swingRightSprite);
+        Debug.Log($"[WeaponSwapUI] 버튼 이미지 설정 실행됨 | isNight: {isNight}, isLeft: {isMainWeaponLeft}, isFever: {useFeverSprite}");
 
-        Sprite judgeSprite = isNight
-            ? (isMainWeaponLeft ? judgeRightSprite_night : judgeLeftSprite_night)
-            : (isMainWeaponLeft ? judgeRightSprite : judgeLeftSprite);
+        if (swingButtonImage != null && judgeButtonImage != null)
+        {
+            Sprite swingSprite;
 
-        Debug.Log($"[WeaponSwapUI] 스윙 스프라이트: {swingSprite?.name}, 판정 스프라이트: {judgeSprite?.name}");
+            // ✅ 피버 모드일 경우 피버용 스프라이트 강제 적용
+            if (useFeverSprite)
+            {
+                swingSprite = isMainWeaponLeft ? feverSwingLeftSprite : feverSwingRightSprite;
+            }
+            else
+            {
+                swingSprite = isNight
+                    ? (isMainWeaponLeft ? swingLeftSprite_night : swingRightSprite_night)
+                    : (isMainWeaponLeft ? swingLeftSprite : swingRightSprite);
+            }
 
-        swingButtonImage.sprite = swingSprite;
-        judgeButtonImage.sprite = judgeSprite;
+            // ✅ 판정 버튼은 그대로 테마 기반 적용
+            Sprite judgeSprite = isNight
+                ? (isMainWeaponLeft ? judgeRightSprite_night : judgeLeftSprite_night)
+                : (isMainWeaponLeft ? judgeRightSprite : judgeLeftSprite);
+
+            Debug.Log($"[WeaponSwapUI] 스윙 스프라이트: {swingSprite?.name}, 판정 스프라이트: {judgeSprite?.name}");
+
+            swingButtonImage.sprite = swingSprite;
+            judgeButtonImage.sprite = judgeSprite;
+        }
+        else
+        {
+            Debug.LogWarning("[WeaponSwapUI] 스프라이트 이미지가 연결되지 않았습니다.");
+        }
     }
-    else
-    {
-        Debug.LogWarning("[WeaponSwapUI] 스프라이트 이미지가 연결되지 않았습니다.");
-    }
-    }
+
 }

@@ -14,17 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreThreshold: 999
   theme: 1
-  rotationSpeed: 20
+  rotationSpeed: 25
   allowedNoteTypes: 01000000020000000300000005000000
   gumihoImages:
-    dayImage: {fileID: 8887855459685190446, guid: 3ecbf0bb75e78f24a9c79e3fb340b2a5, type: 3}
-    nightImage: {fileID: 4655629868121015762, guid: 7d0583157e0edcb49928cbd4ce0cd035, type: 3}
-  dayGumihoSprite: {fileID: 8887855459685190446, guid: 3ecbf0bb75e78f24a9c79e3fb340b2a5, type: 3}
-  nightGumihoSprite: {fileID: 4655629868121015762, guid: 7d0583157e0edcb49928cbd4ce0cd035, type: 3}
+    dayImage: {fileID: 5110183227946292937, guid: ae1250c5b548d66419de50a868207c04, type: 3}
+    nightImage: {fileID: 4655629868121015762, guid: 826d7a274f01aeb439f39b61d6ad0293, type: 3}
+  dayGumihoSprite: {fileID: 5110183227946292937, guid: ae1250c5b548d66419de50a868207c04, type: 3}
+  nightGumihoSprite: {fileID: 4655629868121015762, guid: 826d7a274f01aeb439f39b61d6ad0293, type: 3}
   dayGumihoSprites:
-  - {fileID: 8887855459685190446, guid: 3ecbf0bb75e78f24a9c79e3fb340b2a5, type: 3}
+  - {fileID: 5110183227946292937, guid: ae1250c5b548d66419de50a868207c04, type: 3}
   nightGumihoSprites:
-  - {fileID: 4655629868121015762, guid: 7d0583157e0edcb49928cbd4ce0cd035, type: 3}
+  - {fileID: 4655629868121015762, guid: 826d7a274f01aeb439f39b61d6ad0293, type: 3}
   noteSpawnChances:
   - noteType: 1
     spawnChance: 0.3
